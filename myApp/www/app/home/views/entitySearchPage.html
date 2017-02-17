@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="true">
+<ion-view hide-nav-bar="true" cache-view="false">
     <ion-header-bar align-title="center" class="bar-positive">
         <h1 class="title">Store, Product or Brand</h1>
         <div class="buttons">
@@ -6,14 +6,16 @@
       </div>
         
     </ion-header-bar>
+    <div class="bar bar-subheader item-input-inset">
+  <label class="item-input-wrapper">
+    <i class="icon ion-bag placeholder-icon"></i>
+    <input type="text" ng-model="espc.entitySearchModel" ng-change="espc.entityTextChange()">
+  </label>
+  <button class="button button-assertive">
+    Clear
+  </button>
+</div>
     
-    <div class="bar bar-subheader item-input">
-      <label class="item-input">
-        <i class="icon ion-bag placeholder-icon"></i>
-        <input type="text" ng-model="espc.entitySearchModel" ng-change="espc.entityTextChange()">
-      </label>
-  
-    </div>
     <ion-content class="has-header has-subheader">
     
         

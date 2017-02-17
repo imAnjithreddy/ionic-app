@@ -1005,150 +1005,6 @@ function imageReplacementDirective(){
   angular.module('app.review',[]);
 })(window.angular);
 
-(function(angular){
-  'use strict';
-
-angular.module('app.event')
-  .service('adminEventService',["$http","baseUrlService",'changeBrowserURL',AdminEventService]);
-
-/*
-  * This servic has a function to get collection of events`
-*/
-
-function AdminEventService($http,baseUrlService){
-  
-  this.createEvent = createEvent;
-  this.getEvent = getEvent;
-  this.updateEvent = updateEvent;
-  this.deleteEvent  = deleteEvent;
-  
-  function createEvent(storeId, event){
-
-  	return $http.post(baseUrlService.baseUrl+'admin/events/'+storeId,event);
-    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
-
-  }
-  function updateEvent(eventId,storeId,event){
-  	return $http.put(baseUrlService.baseUrl+'admin/event/'+storeId+'/'+eventId,event);
-  }
-  function getEvent(eventId,storeId,obj){
-    return $http.get(baseUrlService.baseUrl+'admin/event/'+storeId+'/'+eventId,{params:obj});       
-  }
-  function deleteEvent(){
-
-  }
-}
-})(window.angular);
-
-(function(angular){
-  'use strict';
-
-angular.module('app.offer')
-  .service('adminOfferService',["$http","baseUrlService",'changeBrowserURL',AdminOfferService]);
-
-/*
-  * This servic has a function to get collection of offers`
-*/
-
-function AdminOfferService($http,baseUrlService){
-  
-  this.createOffer = createOffer;
-  this.getOffer = getOffer;
-  this.updateOffer = updateOffer;
-  this.deleteOffer  = deleteOffer;
-  
-  function createOffer(storeId, offer){
-
-  	return $http.post(baseUrlService.baseUrl+'admin/offers/'+storeId,offer);
-    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
-
-  }
-  function updateOffer(offerId,storeId,offer){
-  	return $http.put(baseUrlService.baseUrl+'admin/offer/'+storeId+'/'+offerId,offer);
-  }
-  function getOffer(offerId,storeId,obj){
-    return $http.get(baseUrlService.baseUrl+'admin/offer/'+storeId+'/'+offerId,{params:obj});       
-  }
-  function deleteOffer(){
-
-  }
-}
-})(window.angular);
-
-(function(angular){
-  'use strict';
-
-angular.module('app.admin')
-  .service('adminProductService',["$http","baseUrlService",'changeBrowserURL',AdminProductService]);
-
-/*
-  * This servic has a function to get collection of products`
-*/
-
-function AdminProductService($http,baseUrlService,changeBrowserURL){
-  this.checkProductAdmin = checkProductAdmin;
-  this.createProduct = createProduct;
-  this.getProduct = getProduct;
-  this.updateProduct = updateProduct;
-  this.deleteProduct  = deleteProduct;
-  function checkProductAdmin(userId,productId){
-    return $http.get(baseUrlService.baseUrl);
-  }
-  function createProduct(product,storeId){
-  	return $http.post(baseUrlService.baseUrl+'admin/products/'+storeId,product);
-    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
-
-  }
-  function updateProduct(storeId,productId,product){
-    console.log("entered product update");
-    console.log(product);
-  	return $http.put(baseUrlService.baseUrl+'admin/product/'+productId+'/'+storeId,product);
-  }
-  function getProduct(productId,obj){
-    return $http.get(baseUrlService.baseUrl+'admin/product/'+productId,{params:obj});       
-  }
-  function deleteProduct(){
-
-  }
-}
-})(window.angular);
-
-(function(angular){
-  'use strict';
-
-angular.module('app.admin')
-  .service('adminStoreService',["$http","baseUrlService",'changeBrowserURL',AdminStoreService]);
-
-/*
-  * This servic has a function to get collection of stores`
-*/
-
-function AdminStoreService($http,baseUrlService,changeBrowserURL){
-  this.checkStoreAdmin = checkStoreAdmin;
-  this.createStore = createStore;
-  this.getStore = getStore;
-  this.updateStore = updateStore;
-  this.deleteStore  = deleteStore;
-  function checkStoreAdmin(userId,storeId){
-    return $http.get(baseUrlService.baseUrl);
-  }
-  function createStore(store){
-  	return $http.post(baseUrlService.baseUrl+'admin/stores',store);
-    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
-
-  }
-  function updateStore(storeId,store){
-  	return $http.put(baseUrlService.baseUrl+'admin/store/'+storeId,store);
-  }
-  function getStore(storeId,obj){
-    return $http.get(baseUrlService.baseUrl+'admin/store/'+storeId,{params:obj});       
-  }
-  function deleteStore(){
-
-  }
-}
-})(window.angular);
-
 (function(angular) {
   'use strict';
   angular.module('app.event')
@@ -2080,6 +1936,150 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
         };
     	
     }
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.event')
+  .service('adminEventService',["$http","baseUrlService",'changeBrowserURL',AdminEventService]);
+
+/*
+  * This servic has a function to get collection of events`
+*/
+
+function AdminEventService($http,baseUrlService){
+  
+  this.createEvent = createEvent;
+  this.getEvent = getEvent;
+  this.updateEvent = updateEvent;
+  this.deleteEvent  = deleteEvent;
+  
+  function createEvent(storeId, event){
+
+  	return $http.post(baseUrlService.baseUrl+'admin/events/'+storeId,event);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function updateEvent(eventId,storeId,event){
+  	return $http.put(baseUrlService.baseUrl+'admin/event/'+storeId+'/'+eventId,event);
+  }
+  function getEvent(eventId,storeId,obj){
+    return $http.get(baseUrlService.baseUrl+'admin/event/'+storeId+'/'+eventId,{params:obj});       
+  }
+  function deleteEvent(){
+
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.offer')
+  .service('adminOfferService',["$http","baseUrlService",'changeBrowserURL',AdminOfferService]);
+
+/*
+  * This servic has a function to get collection of offers`
+*/
+
+function AdminOfferService($http,baseUrlService){
+  
+  this.createOffer = createOffer;
+  this.getOffer = getOffer;
+  this.updateOffer = updateOffer;
+  this.deleteOffer  = deleteOffer;
+  
+  function createOffer(storeId, offer){
+
+  	return $http.post(baseUrlService.baseUrl+'admin/offers/'+storeId,offer);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function updateOffer(offerId,storeId,offer){
+  	return $http.put(baseUrlService.baseUrl+'admin/offer/'+storeId+'/'+offerId,offer);
+  }
+  function getOffer(offerId,storeId,obj){
+    return $http.get(baseUrlService.baseUrl+'admin/offer/'+storeId+'/'+offerId,{params:obj});       
+  }
+  function deleteOffer(){
+
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.admin')
+  .service('adminProductService',["$http","baseUrlService",'changeBrowserURL',AdminProductService]);
+
+/*
+  * This servic has a function to get collection of products`
+*/
+
+function AdminProductService($http,baseUrlService,changeBrowserURL){
+  this.checkProductAdmin = checkProductAdmin;
+  this.createProduct = createProduct;
+  this.getProduct = getProduct;
+  this.updateProduct = updateProduct;
+  this.deleteProduct  = deleteProduct;
+  function checkProductAdmin(userId,productId){
+    return $http.get(baseUrlService.baseUrl);
+  }
+  function createProduct(product,storeId){
+  	return $http.post(baseUrlService.baseUrl+'admin/products/'+storeId,product);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function updateProduct(storeId,productId,product){
+    console.log("entered product update");
+    console.log(product);
+  	return $http.put(baseUrlService.baseUrl+'admin/product/'+productId+'/'+storeId,product);
+  }
+  function getProduct(productId,obj){
+    return $http.get(baseUrlService.baseUrl+'admin/product/'+productId,{params:obj});       
+  }
+  function deleteProduct(){
+
+  }
+}
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('app.admin')
+  .service('adminStoreService',["$http","baseUrlService",'changeBrowserURL',AdminStoreService]);
+
+/*
+  * This servic has a function to get collection of stores`
+*/
+
+function AdminStoreService($http,baseUrlService,changeBrowserURL){
+  this.checkStoreAdmin = checkStoreAdmin;
+  this.createStore = createStore;
+  this.getStore = getStore;
+  this.updateStore = updateStore;
+  this.deleteStore  = deleteStore;
+  function checkStoreAdmin(userId,storeId){
+    return $http.get(baseUrlService.baseUrl);
+  }
+  function createStore(store){
+  	return $http.post(baseUrlService.baseUrl+'admin/stores',store);
+    //return $http.get(baseUrlService.baseUrl+url,{params:paramData});
+
+  }
+  function updateStore(storeId,store){
+  	return $http.put(baseUrlService.baseUrl+'admin/store/'+storeId,store);
+  }
+  function getStore(storeId,obj){
+    return $http.get(baseUrlService.baseUrl+'admin/store/'+storeId,{params:obj});       
+  }
+  function deleteStore(){
+
+  }
+}
 })(window.angular);
 
 (function(angular) {
@@ -3530,15 +3530,19 @@ function EventService($http,baseUrlService){
 	'use strict';
 
 	angular.module('app.home')
-	.controller('SearchBoxPageController',["$scope","$state", '$stateParams', SearchBoxPageController]);
+	.controller('SearchBoxPageController',["$scope","$state", '$ionicHistory','cityStorage' ,SearchBoxPageController]);
 
-	function SearchBoxPageController($scope,$state,$stateParams){
+	function SearchBoxPageController($scope,$state,$ionicHistory,cityStorage){
 			var phc = this;
+			phc.citySearchModel = cityStorage.getCity();
 			phc.openCityPage = function(){
 			    $state.go('citySearchPage');
 			};
 			phc.openEntityPage = function(){
 			    $state.go('entitySearchPage');
+			};
+			phc.goBack = function(){
+			    $ionicHistory.goBack();
 			};
 			
             
