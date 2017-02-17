@@ -1,0 +1,41 @@
+<ion-view>
+    <ion-content>
+        <div ng-controller="MobileHomePageController as mhpc">
+
+
+            <main>
+                <div layout="row">
+                    <div class="search-banner" layout="column" layout-align="center center" image-replacement-directive='https://www.ultimatedesignertoolkit.com/wp-content/uploads/2015/11/Background_5.jpg'>
+                        <!--<div class="dark-mask-absolute"></div>-->
+                        <div layout="row" layout-align="center center">
+                            <div class="search-content">
+                                <div class="content-header md-title">
+                                    <h3>Search for stores, products and brands</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout="row" class="searchBoxLayout" layout-align="space-around " layout-xs="column" layout-sm="column" layout-align-sm="space-between stretch" layout-align-xs="space-between stretch">
+                
+                <div flex="100">
+                        <div >
+                                <div class="mobileSearchBox" ng-click="mhpc.openEntitySearchPage()" md-whiteframe="3">
+                                        <span class="mobileSearchText"> Select a store, product or brand</span>
+                                </div>
+                        </div>
+                        
+                </div>
+                
+        </div>
+                    </div>
+                </div>
+                <div layout="column" layout-wrap>
+                    <div class="categoryBoxListContainer">
+                        <div ng-include="'app/store/views/categoryBoxList.html'"></div>
+                    </div>
+                </div>
+            </main>
+        </div>        
+    </ion-content>
+    
+
+</ion-view>
