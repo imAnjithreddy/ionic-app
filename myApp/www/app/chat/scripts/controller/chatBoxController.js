@@ -6,6 +6,7 @@
 
     function ChatBoxController($scope, Socket, $stateParams, userData, chatService,userService) {
         var cbc = this;
+        
         cbc.currentUser = userData.getUser()._id;
         cbc.receiverUser = '';
         cbc.innerLoading = true;

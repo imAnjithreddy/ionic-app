@@ -6,14 +6,15 @@
 		'authModApp',
 		'app.common', 'app.home', 'app.store', 'app.chat', 'app.admin', 'ngMaterial', 'app.review', 'app.product', 'app.user', 'app.offer', 'app.event'
 	]);
-	app.config(['$urlRouterProvider','$stateProvider', '$mdThemingProvider',
-		function($urlRouterProvider,$stateProvider, $mdThemingProvider) {
+	app.config(['$urlRouterProvider','$stateProvider', '$ionicConfigProvider',
+		function($urlRouterProvider,$stateProvider, $ionicConfigProvider) {
 			/*$mdThemingProvider.theme('default')
 				.primaryPalette('cyan')
 				.accentPalette('yellow')
 				.warnPalette('orange');*/
 			//.backgroundPalette('blue-grey');
-			$urlRouterProvider.otherwise('/home');
+			$ionicConfigProvider.tabs.position("bottom");
+			$urlRouterProvider.otherwise('/tab/tabsHome');
 		}
 	]);
 	app.run(['$rootScope', '$location', '$state', '$timeout', '$ionicPlatform',function($rootScope, $location, $state, $timeout,$ionicPlatform) {

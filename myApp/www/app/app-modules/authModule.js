@@ -11,7 +11,7 @@
         var fbClientId = '1068203956594250';
         console.log("the state provider");
         console.log(window.location.origin);
-        var authenticateUrl = window.location.origin+'/authenticate';
+        var authenticateUrl = 'https://shoppins-imanjithreddy.c9users.io'+'/authenticate';
         $stateProvider
             .state('signup', {
                 url: '/signup',

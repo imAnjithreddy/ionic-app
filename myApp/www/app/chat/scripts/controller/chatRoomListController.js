@@ -2,9 +2,9 @@
     'use strict';
     angular.module('app.chat')
 
-    .controller('ChatRoomListController', ['$scope','$stateParams', 'userData', 'chatService', 'changeBrowserURL',ChatRoomListController]);
+    .controller('ChatRoomListController', ['$scope','$stateParams', 'userData', 'chatService', '$state',ChatRoomListController]);
 
-    function ChatRoomListController($scope,$stateParams, userData, chatService,changeBrowserURL) {
+    function ChatRoomListController($scope,$stateParams, userData, chatService,$state) {
         
         var cbc = this;
         cbc.currentUser = userData.getUser()._id;
@@ -12,7 +12,8 @@
         activate();
         cbc.openChatbox = openChatbox;
         function openChatbox(chatRoom){
-            changeBrowserURL.changeBrowserURLMethod('/chatBox/'+chatRoom.creator1._id+'/'+chatRoom.creator2._id);
+            $state.go('tabs.chatBox',{creator1:chatRoom.creator1._id,creator2:chatRoom.creator2._id});
+            //changeBrowserURL.changeBrowserURLMethod('/chatBox/'+chatRoom.creator1._id+'/'+chatRoom.creator2._id);
         }
         function getChatRoomList(){
 

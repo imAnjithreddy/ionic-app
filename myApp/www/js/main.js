@@ -6,14 +6,15 @@
 		'authModApp',
 		'app.common', 'app.home', 'app.store', 'app.chat', 'app.admin', 'ngMaterial', 'app.review', 'app.product', 'app.user', 'app.offer', 'app.event'
 	]);
-	app.config(['$urlRouterProvider','$stateProvider', '$mdThemingProvider',
-		function($urlRouterProvider,$stateProvider, $mdThemingProvider) {
+	app.config(['$urlRouterProvider','$stateProvider', '$ionicConfigProvider',
+		function($urlRouterProvider,$stateProvider, $ionicConfigProvider) {
 			/*$mdThemingProvider.theme('default')
 				.primaryPalette('cyan')
 				.accentPalette('yellow')
 				.warnPalette('orange');*/
 			//.backgroundPalette('blue-grey');
-			$urlRouterProvider.otherwise('/home');
+			$ionicConfigProvider.tabs.position("bottom");
+			$urlRouterProvider.otherwise('/tab/tabsHome');
 		}
 	]);
 	app.run(['$rootScope', '$location', '$state', '$timeout', '$ionicPlatform',function($rootScope, $location, $state, $timeout,$ionicPlatform) {
@@ -176,7 +177,7 @@ function redirectIfNotStoreAuthenticated($q, $stateParams, userData, adminStoreS
         var fbClientId = '1068203956594250';
         console.log("the state provider");
         console.log(window.location.origin);
-        var authenticateUrl = window.location.origin+'/authenticate';
+        var authenticateUrl = 'https://shoppins-imanjithreddy.c9users.io'+'/authenticate';
         $stateProvider
             .state('signup', {
                 url: '/signup',
@@ -228,22 +229,21 @@ function redirectIfNotStoreAuthenticated($q, $stateParams, userData, adminStoreS
 angular.module('app.chat',[]).config(['$stateProvider',
   function($stateProvider) {
     $stateProvider.
-      state('chatBox', {
+      state('tabs.chatBox', {
         url: '/chatBox/:creator1/:creator2',
+        views: {
+        'chatRooms-tab': {
+         
         templateUrl: 'app/chat/views/chatBox.html',
         controller: 'ChatBoxController',
         controllerAs: 'cbc',
         resolve:{
           redirectIfNotAuthenticated: ['$q','$auth','$stateParams','userData','changeBrowserURL',redirectIfNotAuthenticated]
         }
-        
-      }).
-      state('chatRooms', {
-        url: '/chatRooms',
-        templateUrl: 'app/chat/views/chatRoomListPage.html',
-        resolve:{
-          redirectIfNotUserAuthenticated: ['$q','$auth','changeBrowserURL',redirectIfNotUserAuthenticated]
         }
+      }
+        
+        
       });
   }]);
 function redirectIfNotUserAuthenticated($q,$auth,changeBrowserURL) {
@@ -270,6 +270,7 @@ function redirectIfNotAuthenticated($q,$auth,$stateParams,userData,changeBrowser
                     changeBrowserURL.changeBrowserURLMethod('/home');
                 }
                 else if(userData.getUser()._id==creator1 || userData.getUser()._id==creator2){
+            		
             		defer.resolve();  
             	}
             	else{
@@ -354,8 +355,75 @@ angular.module('app.event',[]).config(['$stateProvider',
 		        templateUrl: 'app/home/views/entitySearchPage.html',
 		        controller: 'EntitySearchPageController',
 		        controllerAs: 'espc'
-		      });
+		      })
+    .state('tabs', {
+      url: "/tab",
+      abstract: true,
+      templateUrl: "app/home/views/tabs.html",
+      controller: 'TabsController',
+      controllerAs: 'tc'
+    })
+    .state('tabs.home', {
+      url: "/tabsHome",
+      views: {
+        'home-tab': {
+          templateUrl: 'app/home/views/mobileHomePage.html',
+		        controller: 'HomeController',
+		  controllerAs: 'hm'
+        }
+      }
+    })
+    .state('tabs.mePage', {
+      url: "/mePage",
+      views: {
+        'mePage-tab': {
+          templateUrl: 'app/user/views/userMePage.html',
+                controller: 'UserMePageController',
+                controllerAs: 'umpc',
+                resolve: {
+                    redirectIfNotUserAuthenticated: ['$q', '$auth', 'changeBrowserURL',redirectIfNotUserAuthenticated]
+                }
+        }
+      }
+    })
+    .state('tabs.userFeed', {
+      url: '/userFeedTab',
+      views: {
+        'userFeed-tab': {
+                templateUrl: 'app/user/views/userMobileFeed.html',
+                controller: 'UserMobileFeedController',
+                controllerAs: 'umfc'
+        }
+      }
+    })
+    .state('tabs.chatRooms', {
+       url: '/chatRoomsTab',
+      views: {
+        'chatRooms-tab': {
+         
+        templateUrl: 'app/chat/views/chatRoomList.html',
+        resolve:{
+          redirectIfNotUserAuthenticated: ['$q','$auth','changeBrowserURL',redirectIfNotUserAuthenticated]
+        }
+        }
+      }
+    });
+
+
 		 }
+		 
+		 function redirectIfNotUserAuthenticated($q, $auth, changeBrowserURL) {
+        var defer = $q.defer();
+
+        if ($auth.isAuthenticated()) {
+            defer.resolve();
+
+        } else {
+            defer.reject();
+            changeBrowserURL.changeBrowserURLMethod('/home');
+        }
+        return defer.promise;
+    }
 
 })(window.angular);
 
@@ -2082,6 +2150,121 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
 }
 })(window.angular);
 
+(function(angular){
+  'use strict';
+
+angular.module('authModApp')
+  .service('userAuthService',["$http",'$auth',"baseUrlService",'$mdDialog','userData','$window',UserAuthService]);
+
+/*
+  * This servic has a function to get collection of stores`
+*/
+function UserAuthService($http,$auth,baseUrlService,$mdDialog,userData,$window){
+  this.socialAuthenticate = socialAuthenticate;
+  this.showAuthenticationDialog = showAuthenticationDialog;
+
+  function showAuthenticationDialog(ev) {
+            $mdDialog.show({
+                    controller: 'AuthenticationModalController',
+                    controllerAs: 'amc',
+                    templateUrl: 'app/authentication/views/authenticationModalTemplate.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.*/
+                })
+                .then(function(answer) {
+                    
+                }, function() {
+
+                });
+        }
+
+
+        function socialAuthenticate(provider) {
+        	
+            $auth.authenticate(provider).then(function(response) {
+                userData.setUser(response.data.user);
+                alert('login with facebook successfull');
+                $window.location.reload();
+            });
+        }
+}
+})(window.angular);
+
+(function(angular){
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name authModApp.userData
+ * @description
+ * # userData
+ * Factory in the authModApp.
+ */
+angular.module('authModApp')
+  .factory('userData',['$window','$state','$auth','$http',"baseUrlService","changeBrowserURL",userData]);
+
+  function userData($window,$state,$auth,$http,baseUrlService,changeBrowserURL) {
+    var storage = $window.localStorage;
+    var cachedUser={};
+    var obj1 =  {
+      setUser: function (user) {
+        
+        if(user){
+          storage.setItem('user',JSON.stringify(user));
+        }
+        else{
+
+          var userId = $auth.getPayload().sub;
+          if(userId){
+            $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
+              
+              if(obj1.isUserExists()){
+                  storage.removeItem('user');
+              }
+
+              storage.setItem('user',JSON.stringify(res.data.user));
+              //
+              //$state.reload();
+            //  $window.location.reload();
+
+            },function(res){
+              console.log(res);
+            });
+          }
+        }
+        
+
+      },
+      getUser: function(){
+
+        return JSON.parse(storage.getItem('user'));
+      //   if(!cachedUser){
+      //     cachedUser = storage.getItem('user');
+      //   }
+      // return cachedUser;
+      },
+      removeUser: function(){
+        cachedUser = null;
+        //console.log('***********logged out*************');
+        storage.removeItem('user');
+      },
+      isUserExists: function(){
+        if(obj1.getUser()){
+          return true;
+        }
+        return false;
+      },
+      getUserPage: function(userId){
+        var url = "/user/"+userId;
+        changeBrowserURL.changeBrowserURLMethod(url);
+      }
+    };
+    return obj1;
+  }
+})(window.angular);
+
 (function(angular) {
     'use strict';
 
@@ -2369,121 +2552,6 @@ angular.module('authModApp')
 
 })(window.angular);
 
-(function(angular){
-  'use strict';
-
-angular.module('authModApp')
-  .service('userAuthService',["$http",'$auth',"baseUrlService",'$mdDialog','userData','$window',UserAuthService]);
-
-/*
-  * This servic has a function to get collection of stores`
-*/
-function UserAuthService($http,$auth,baseUrlService,$mdDialog,userData,$window){
-  this.socialAuthenticate = socialAuthenticate;
-  this.showAuthenticationDialog = showAuthenticationDialog;
-
-  function showAuthenticationDialog(ev) {
-            $mdDialog.show({
-                    controller: 'AuthenticationModalController',
-                    controllerAs: 'amc',
-                    templateUrl: 'app/authentication/views/authenticationModalTemplate.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.*/
-                })
-                .then(function(answer) {
-                    
-                }, function() {
-
-                });
-        }
-
-
-        function socialAuthenticate(provider) {
-        	
-            $auth.authenticate(provider).then(function(response) {
-                userData.setUser(response.data.user);
-                alert('login with facebook successfull');
-                $window.location.reload();
-            });
-        }
-}
-})(window.angular);
-
-(function(angular){
-'use strict';
-
-/**
- * @ngdoc service
- * @name authModApp.userData
- * @description
- * # userData
- * Factory in the authModApp.
- */
-angular.module('authModApp')
-  .factory('userData',['$window','$state','$auth','$http',"baseUrlService","changeBrowserURL",userData]);
-
-  function userData($window,$state,$auth,$http,baseUrlService,changeBrowserURL) {
-    var storage = $window.localStorage;
-    var cachedUser={};
-    var obj1 =  {
-      setUser: function (user) {
-        
-        if(user){
-          storage.setItem('user',JSON.stringify(user));
-        }
-        else{
-
-          var userId = $auth.getPayload().sub;
-          if(userId){
-            $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
-              
-              if(obj1.isUserExists()){
-                  storage.removeItem('user');
-              }
-
-              storage.setItem('user',JSON.stringify(res.data.user));
-              //
-              //$state.reload();
-            //  $window.location.reload();
-
-            },function(res){
-              console.log(res);
-            });
-          }
-        }
-        
-
-      },
-      getUser: function(){
-
-        return JSON.parse(storage.getItem('user'));
-      //   if(!cachedUser){
-      //     cachedUser = storage.getItem('user');
-      //   }
-      // return cachedUser;
-      },
-      removeUser: function(){
-        cachedUser = null;
-        //console.log('***********logged out*************');
-        storage.removeItem('user');
-      },
-      isUserExists: function(){
-        if(obj1.getUser()){
-          return true;
-        }
-        return false;
-      },
-      getUserPage: function(userId){
-        var url = "/user/"+userId;
-        changeBrowserURL.changeBrowserURLMethod(url);
-      }
-    };
-    return obj1;
-  }
-})(window.angular);
-
 (function(angular) {
     'use strict';
     angular.module('app.chat')
@@ -2492,6 +2560,7 @@ angular.module('authModApp')
 
     function ChatBoxController($scope, Socket, $stateParams, userData, chatService,userService) {
         var cbc = this;
+        
         cbc.currentUser = userData.getUser()._id;
         cbc.receiverUser = '';
         cbc.innerLoading = true;
@@ -2572,9 +2641,9 @@ angular.module('authModApp')
     'use strict';
     angular.module('app.chat')
 
-    .controller('ChatRoomListController', ['$scope','$stateParams', 'userData', 'chatService', 'changeBrowserURL',ChatRoomListController]);
+    .controller('ChatRoomListController', ['$scope','$stateParams', 'userData', 'chatService', '$state',ChatRoomListController]);
 
-    function ChatRoomListController($scope,$stateParams, userData, chatService,changeBrowserURL) {
+    function ChatRoomListController($scope,$stateParams, userData, chatService,$state) {
         
         var cbc = this;
         cbc.currentUser = userData.getUser()._id;
@@ -2582,7 +2651,8 @@ angular.module('authModApp')
         activate();
         cbc.openChatbox = openChatbox;
         function openChatbox(chatRoom){
-            changeBrowserURL.changeBrowserURLMethod('/chatBox/'+chatRoom.creator1._id+'/'+chatRoom.creator2._id);
+            $state.go('tabs.chatBox',{creator1:chatRoom.creator1._id,creator2:chatRoom.creator2._id});
+            //changeBrowserURL.changeBrowserURLMethod('/chatBox/'+chatRoom.creator1._id+'/'+chatRoom.creator2._id);
         }
         function getChatRoomList(){
 
@@ -2639,7 +2709,7 @@ angular.module('app.chat').factory('Socket', ['socketFactory','baseUrlService',S
     function SocketFactory(socketFactory,baseUrlService) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect(baseUrlService)
+            ioSocket: io.connect(baseUrlService.baseUrl)
         });
     }
 
@@ -2650,11 +2720,11 @@ angular.module('app.chat').factory('Socket', ['socketFactory','baseUrlService',S
 
 
 angular.module('app.chat')
-	.factory('SocketUserService', ['socketFactory','userData',socketFactoryFunction]);
-    function socketFactoryFunction(socketFactory,userData) {
+	.factory('SocketUserService', ['socketFactory','userData','baseUrlService',socketFactoryFunction]);
+    function socketFactoryFunction(socketFactory,userData,baseUrlService) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect('/'+userData.getUser()._id)
+            ioSocket: io.connect(baseUrlService.baseUrl+userData.getUser()._id)
         });
     }
 })(window.angular);
@@ -3544,6 +3614,28 @@ function EventService($http,baseUrlService){
 			phc.goBack = function(){
 			    $ionicHistory.goBack();
 			};
+			
+            
+	    	
+	}
+
+})(window.angular);
+
+(function(angular){
+	'use strict';
+
+	angular.module('app.home')
+	.controller('TabsController',["$scope","$auth", 'userAuthService' ,TabsController]);
+
+	function TabsController($scope,$auth,userAuthService){
+			var phc = this;
+			
+			phc.isAuthenticated = $auth.isAuthenticated();
+			
+			phc.showAuthenticationDialog = showAuthenticationDialog;
+        function showAuthenticationDialog(ev) {
+            userAuthService.showAuthenticationDialog(ev);
+        }
 			
             
 	    	

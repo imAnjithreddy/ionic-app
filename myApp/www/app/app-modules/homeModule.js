@@ -27,8 +27,75 @@
 		        templateUrl: 'app/home/views/entitySearchPage.html',
 		        controller: 'EntitySearchPageController',
 		        controllerAs: 'espc'
-		      });
+		      })
+    .state('tabs', {
+      url: "/tab",
+      abstract: true,
+      templateUrl: "app/home/views/tabs.html",
+      controller: 'TabsController',
+      controllerAs: 'tc'
+    })
+    .state('tabs.home', {
+      url: "/tabsHome",
+      views: {
+        'home-tab': {
+          templateUrl: 'app/home/views/mobileHomePage.html',
+		        controller: 'HomeController',
+		  controllerAs: 'hm'
+        }
+      }
+    })
+    .state('tabs.mePage', {
+      url: "/mePage",
+      views: {
+        'mePage-tab': {
+          templateUrl: 'app/user/views/userMePage.html',
+                controller: 'UserMePageController',
+                controllerAs: 'umpc',
+                resolve: {
+                    redirectIfNotUserAuthenticated: ['$q', '$auth', 'changeBrowserURL',redirectIfNotUserAuthenticated]
+                }
+        }
+      }
+    })
+    .state('tabs.userFeed', {
+      url: '/userFeedTab',
+      views: {
+        'userFeed-tab': {
+                templateUrl: 'app/user/views/userMobileFeed.html',
+                controller: 'UserMobileFeedController',
+                controllerAs: 'umfc'
+        }
+      }
+    })
+    .state('tabs.chatRooms', {
+       url: '/chatRoomsTab',
+      views: {
+        'chatRooms-tab': {
+         
+        templateUrl: 'app/chat/views/chatRoomList.html',
+        resolve:{
+          redirectIfNotUserAuthenticated: ['$q','$auth','changeBrowserURL',redirectIfNotUserAuthenticated]
+        }
+        }
+      }
+    });
+
+
 		 }
+		 
+		 function redirectIfNotUserAuthenticated($q, $auth, changeBrowserURL) {
+        var defer = $q.defer();
+
+        if ($auth.isAuthenticated()) {
+            defer.resolve();
+
+        } else {
+            defer.reject();
+            changeBrowserURL.changeBrowserURLMethod('/home');
+        }
+        return defer.promise;
+    }
 
 })(window.angular);
 

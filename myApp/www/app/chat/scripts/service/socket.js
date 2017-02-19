@@ -5,7 +5,7 @@ angular.module('app.chat').factory('Socket', ['socketFactory','baseUrlService',S
     function SocketFactory(socketFactory,baseUrlService) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect(baseUrlService)
+            ioSocket: io.connect(baseUrlService.baseUrl)
         });
     }
 
