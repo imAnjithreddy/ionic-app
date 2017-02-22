@@ -23,7 +23,7 @@
                  $ionicHistory.goBack();
             }
             function closeCitySearchPage(){
-                $state.go('home');
+                $state.go('tabs.home');
             }
             function itemSelected(item){
                 cityStorage.setCity(item);

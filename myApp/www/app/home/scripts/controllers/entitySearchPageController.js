@@ -18,7 +18,7 @@
                  $ionicHistory.goBack();
             }
             function closeCitySearchPage(){
-                $state.go('home');
+                $state.go('tabs.home');
             }
             function itemSelected(item){
                 

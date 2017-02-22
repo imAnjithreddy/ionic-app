@@ -1,17 +1,4 @@
 <div  ng-controller="StoreProductListController as splc" style="width:100%;">
-  <products-list admin-product="true" param-data="splc.paramData"></products-list><!--
-  <div class="productContainer" layout="row" layout-wrap layout-align="space-around start">
-    <div class="singleProductContainer" md-whiteframe="1"  flex-xs="100" ng-repeat="product in splc.storeProductsList track by product._id">
-
-      <single-product-directive single-product="product"> </single-product-directive>
-
-     
-    </div>
-  </div>
-  <div ng-if="splc.noProductsInStore">
-  	<p style="text-align: center;">
-  		No Products in Store
-  	</p>
-  </div>-->
+  <products-list admin-product="true" param-data="splc.paramData"></products-list>
 </div>
 

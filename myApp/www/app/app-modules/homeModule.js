@@ -41,7 +41,7 @@
         'home-tab': {
           templateUrl: 'app/home/views/mobileHomePage.html',
 		        controller: 'HomeController',
-		  controllerAs: 'hm'
+		        controllerAs: 'hm'
         }
       }
     })

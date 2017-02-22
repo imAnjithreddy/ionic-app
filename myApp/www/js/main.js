@@ -127,7 +127,6 @@ function redirectIfNotAuthenticated2($q, $timeout, $auth, changeBrowserURL) {
 
     var defer = $q.defer();
     if ($auth.isAuthenticated()) {
-        alert("hit1");
         defer.resolve();
     } else {
         $timeout(function() {
@@ -369,7 +368,7 @@ angular.module('app.event',[]).config(['$stateProvider',
         'home-tab': {
           templateUrl: 'app/home/views/mobileHomePage.html',
 		        controller: 'HomeController',
-		  controllerAs: 'hm'
+		        controllerAs: 'hm'
         }
       }
     })
@@ -2150,121 +2149,6 @@ function AdminStoreService($http,baseUrlService,changeBrowserURL){
 }
 })(window.angular);
 
-(function(angular){
-  'use strict';
-
-angular.module('authModApp')
-  .service('userAuthService',["$http",'$auth',"baseUrlService",'$mdDialog','userData','$window',UserAuthService]);
-
-/*
-  * This servic has a function to get collection of stores`
-*/
-function UserAuthService($http,$auth,baseUrlService,$mdDialog,userData,$window){
-  this.socialAuthenticate = socialAuthenticate;
-  this.showAuthenticationDialog = showAuthenticationDialog;
-
-  function showAuthenticationDialog(ev) {
-            $mdDialog.show({
-                    controller: 'AuthenticationModalController',
-                    controllerAs: 'amc',
-                    templateUrl: 'app/authentication/views/authenticationModalTemplate.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.*/
-                })
-                .then(function(answer) {
-                    
-                }, function() {
-
-                });
-        }
-
-
-        function socialAuthenticate(provider) {
-        	
-            $auth.authenticate(provider).then(function(response) {
-                userData.setUser(response.data.user);
-                alert('login with facebook successfull');
-                $window.location.reload();
-            });
-        }
-}
-})(window.angular);
-
-(function(angular){
-'use strict';
-
-/**
- * @ngdoc service
- * @name authModApp.userData
- * @description
- * # userData
- * Factory in the authModApp.
- */
-angular.module('authModApp')
-  .factory('userData',['$window','$state','$auth','$http',"baseUrlService","changeBrowserURL",userData]);
-
-  function userData($window,$state,$auth,$http,baseUrlService,changeBrowserURL) {
-    var storage = $window.localStorage;
-    var cachedUser={};
-    var obj1 =  {
-      setUser: function (user) {
-        
-        if(user){
-          storage.setItem('user',JSON.stringify(user));
-        }
-        else{
-
-          var userId = $auth.getPayload().sub;
-          if(userId){
-            $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
-              
-              if(obj1.isUserExists()){
-                  storage.removeItem('user');
-              }
-
-              storage.setItem('user',JSON.stringify(res.data.user));
-              //
-              //$state.reload();
-            //  $window.location.reload();
-
-            },function(res){
-              console.log(res);
-            });
-          }
-        }
-        
-
-      },
-      getUser: function(){
-
-        return JSON.parse(storage.getItem('user'));
-      //   if(!cachedUser){
-      //     cachedUser = storage.getItem('user');
-      //   }
-      // return cachedUser;
-      },
-      removeUser: function(){
-        cachedUser = null;
-        //console.log('***********logged out*************');
-        storage.removeItem('user');
-      },
-      isUserExists: function(){
-        if(obj1.getUser()){
-          return true;
-        }
-        return false;
-      },
-      getUserPage: function(userId){
-        var url = "/user/"+userId;
-        changeBrowserURL.changeBrowserURLMethod(url);
-      }
-    };
-    return obj1;
-  }
-})(window.angular);
-
 (function(angular) {
     'use strict';
 
@@ -2550,6 +2434,121 @@ angular.module('authModApp')
 			};
 		});
 
+})(window.angular);
+
+(function(angular){
+  'use strict';
+
+angular.module('authModApp')
+  .service('userAuthService',["$http",'$auth',"baseUrlService",'$mdDialog','userData','$window',UserAuthService]);
+
+/*
+  * This servic has a function to get collection of stores`
+*/
+function UserAuthService($http,$auth,baseUrlService,$mdDialog,userData,$window){
+  this.socialAuthenticate = socialAuthenticate;
+  this.showAuthenticationDialog = showAuthenticationDialog;
+
+  function showAuthenticationDialog(ev) {
+            $mdDialog.show({
+                    controller: 'AuthenticationModalController',
+                    controllerAs: 'amc',
+                    templateUrl: 'app/authentication/views/authenticationModalTemplate.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.*/
+                })
+                .then(function(answer) {
+                    
+                }, function() {
+
+                });
+        }
+
+
+        function socialAuthenticate(provider) {
+        	
+            $auth.authenticate(provider).then(function(response) {
+                userData.setUser(response.data.user);
+                alert('login with facebook successfull');
+                $window.location.reload();
+            });
+        }
+}
+})(window.angular);
+
+(function(angular){
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name authModApp.userData
+ * @description
+ * # userData
+ * Factory in the authModApp.
+ */
+angular.module('authModApp')
+  .factory('userData',['$window','$state','$auth','$http',"baseUrlService","changeBrowserURL",userData]);
+
+  function userData($window,$state,$auth,$http,baseUrlService,changeBrowserURL) {
+    var storage = $window.localStorage;
+    var cachedUser={};
+    var obj1 =  {
+      setUser: function (user) {
+        
+        if(user){
+          storage.setItem('user',JSON.stringify(user));
+        }
+        else{
+
+          var userId = $auth.getPayload().sub;
+          if(userId){
+            $http.get(baseUrlService.baseUrl+'authenticate/user/'+userId).then(function(res){
+              
+              if(obj1.isUserExists()){
+                  storage.removeItem('user');
+              }
+
+              storage.setItem('user',JSON.stringify(res.data.user));
+              //
+              //$state.reload();
+            //  $window.location.reload();
+
+            },function(res){
+              console.log(res);
+            });
+          }
+        }
+        
+
+      },
+      getUser: function(){
+
+        return JSON.parse(storage.getItem('user'));
+      //   if(!cachedUser){
+      //     cachedUser = storage.getItem('user');
+      //   }
+      // return cachedUser;
+      },
+      removeUser: function(){
+        cachedUser = null;
+        //console.log('***********logged out*************');
+        storage.removeItem('user');
+      },
+      isUserExists: function(){
+        if(obj1.getUser()){
+          return true;
+        }
+        return false;
+      },
+      getUserPage: function(userId){
+        var url = "/user/"+userId;
+        changeBrowserURL.changeBrowserURLMethod(url);
+      }
+    };
+    return obj1;
+  }
 })(window.angular);
 
 (function(angular) {
@@ -3086,7 +3085,7 @@ function EventService($http,baseUrlService){
                  $ionicHistory.goBack();
             }
             function closeCitySearchPage(){
-                $state.go('home');
+                $state.go('tabs.home');
             }
             function itemSelected(item){
                 cityStorage.setCity(item);
@@ -3126,7 +3125,7 @@ function EventService($http,baseUrlService){
                  $ionicHistory.goBack();
             }
             function closeCitySearchPage(){
-                $state.go('home');
+                $state.go('tabs.home');
             }
             function itemSelected(item){
                 

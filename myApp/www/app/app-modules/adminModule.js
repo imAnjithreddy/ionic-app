@@ -57,7 +57,6 @@ function redirectIfNotAuthenticated2($q, $timeout, $auth, changeBrowserURL) {
 
     var defer = $q.defer();
     if ($auth.isAuthenticated()) {
-        alert("hit1");
         defer.resolve();
     } else {
         $timeout(function() {

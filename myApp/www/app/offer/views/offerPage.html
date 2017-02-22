@@ -1,4 +1,4 @@
-<div ng-include="'app/home/searchBox.html'"></div>
+
 <div class="offerPage">
         <div class="offerBannerSection">
                 <div class="offerBannerImage" flex>
@@ -11,7 +11,7 @@
 Share me
 </a>
         <div layout="row" layout-sm="column" layout-xs = "column">
-                <div flex="60"  flex-sm="100" flex-xs="100" class="offerDetailsSection">
+                <div flex="100"  class="offerDetailsSection">
                         <div class="offerTitle">
                                 <h2> {{opc.offerData.tagline}} </h2>
                         </div>
@@ -23,20 +23,20 @@ Share me
                         <div class="offerDetailsContent">
                                 <div layout="column">
                                         <div layout="row" class="offerDetailsEntity">
-                                                <div flex="30" flex-sm="100" flex-xs="100" class="offerDetailsEntityLabel">Start Date</div>
-                                                <div flex="70" flex-sm="100" flex-xs="100">{{ opc.offerData.startDate | date: 'd MMM yyyy'}}</div>
+                                                <div flex="100"  class="offerDetailsEntityLabel">Start Date</div>
+                                                <div flex="100" >{{ opc.offerData.startDate | date: 'd MMM yyyy'}}</div>
                                         </div>
                                         <div layout="row" class="offerDetailsEntity">
-                                                <div flex="30" flex-sm="100" flex-xs="100" class="offerDetailsEntityLabel">End Date</div>
-                                                <div flex="70" flex-sm="100" flex-xs="100">{{ opc.offerData.endDate | date: 'd MMM yyyy'}}</div>
+                                                <div flex="100"  class="offerDetailsEntityLabel">End Date</div>
+                                                <div flex="100" >{{ opc.offerData.endDate | date: 'd MMM yyyy'}}</div>
                                         </div>
                                         <div layout="row" class="offerDetailsEntity">
-                                                <div flex="30" flex-sm="100" flex-xs="100" class="offerDetailsEntityLabel">Venue</div>
-                                                <div flex="70" flex-sm="100" flex-xs="100">{{ opc.offerData.address.area+", "+opc.offerData.address.locality+", "+opc.offerData.address.city}}</div>
+                                                <div flex="100"  class="offerDetailsEntityLabel">Venue</div>
+                                                <div flex="100" >{{ opc.offerData.address.area+", "+opc.offerData.address.locality+", "+opc.offerData.address.city}}</div>
                                         </div>
                                         <div layout="row" class="offerDetailsEntity">
-                                                <div flex="30" flex-sm="100" flex-xs="100" class="offerDetailsEntityLabel">Category</div>
-                                                <div flex="70" flex-sm="100" flex-xs="100">{{ opc.offerData.category.join(", ")}}</div>
+                                                <div flex="100" class="offerDetailsEntityLabel">Category</div>
+                                                <div  flex="100">{{ opc.offerData.category.join(", ")}}</div>
                                         </div>
                                 </div>
                         </div>
@@ -50,7 +50,7 @@ Share me
                                 </div>
                         </div>
                 </div>
-                <div flex="30"  flex-sm="100" flex-xs="100" class="offerSuggestionSection">
+                <div flex="100" class="offerSuggestionSection">
                         
                         <div class="moreOfferSection">
                                 <h3 class="offerSuggestionHeader">More Offers</h3>
